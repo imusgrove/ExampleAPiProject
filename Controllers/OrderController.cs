@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RedOrderApi.Data;
+using RedOrderApi.Services;
 
 namespace RedOrderApi.Controllers;
 
@@ -9,19 +10,15 @@ namespace RedOrderApi.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly OrderContext _orderContext;
+    private readonly IOrderService _orderService;
 
-    public OrderController (OrderContext orderContext)
+
+    public OrderController (OrderContext orderContext, IOrderService orderService)
     {
         _orderContext = orderContext;
+        _orderService = orderService;
     }
 
-    [Route("getsetoforders")]
-    [HttpGet]
-    public ActionResult Get(int take = 10, int skip = 0)
-    {
-        return Ok(_orderContext.Orders.OrderBy(p => p.OrderId).Skip(skip).Take(take));
-    }
-    
     [Route("createorder")]
     [HttpPost]
     public ActionResult CreateOrder(int take = 10, int skip = 0)

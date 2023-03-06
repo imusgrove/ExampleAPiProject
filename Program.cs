@@ -5,7 +5,7 @@ using RedOrderApi.Data;
 using System.Data.SqlClient;
 using Microsoft.OpenApi.Models;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
-
+using RedOrderApi.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,6 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<OrderContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("OrderDb")));
 
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 
 
@@ -50,6 +51,8 @@ if (app.Environment.IsDevelopment())
         //c.RoutePrefix = string.Empty;
     });;
 }
+
+
 
 app.UseAuthorization();
 
