@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "hQTcc4J/GNtAaDNL0FrfNxOLeFbF5fmh1DHPAAEqBt3TcbkrddMNj5hNfnfoXzbMrvpsCNY4E/DDVoZo8B3a5g==",
+  "dgSpecHash": "8mWjpBLxFtq84Z91L4u3ezYgaR2U04q2IwQ5M7itS8Oc4ekRpLnOZSZfBWbcqdWXpYRP66M5WDVM+onSR02jDA==",
   "success": true,
   "projectFilePath": "/Users/ieshaduff/RiderProjects/RedOrderApi/RedOrderApi.csproj",
   "expectedPackageFiles": [
@@ -63,7 +63,7 @@
     "/Users/ieshaduff/.nuget/packages/runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl/4.3.0/runtime.ubuntu.16.04-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "/Users/ieshaduff/.nuget/packages/runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl/4.3.0/runtime.ubuntu.16.10-x64.runtime.native.system.security.cryptography.openssl.4.3.0.nupkg.sha512",
     "/Users/ieshaduff/.nuget/packages/swashbuckle.aspnetcore/6.4.0/swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
-    "/Users/ieshaduff/.nuget/packages/swashbuckle.aspnetcore.swagger/6.4.0/swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
+    "/Users/ieshaduff/.nuget/packages/swashbuckle.aspnetcore.swagger/6.5.0/swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "/Users/ieshaduff/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.4.0/swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",
     "/Users/ieshaduff/.nuget/packages/swashbuckle.aspnetcore.swaggerui/6.4.0/swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512",
     "/Users/ieshaduff/.nuget/packages/system.appcontext/4.3.0/system.appcontext.4.3.0.nupkg.sha512",

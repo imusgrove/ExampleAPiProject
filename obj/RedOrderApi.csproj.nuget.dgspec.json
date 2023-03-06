@@ -58,6 +58,10 @@
               "target": "Package",
               "version": "[6.4.0, )"
             },
+            "Swashbuckle.AspNetCore.Swagger": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            },
             "System.Configuration.ConfigurationManager": {
               "target": "Package",
               "version": "[8.0.0-preview.1.23110.8, )"
