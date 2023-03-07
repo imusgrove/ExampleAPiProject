@@ -1,5 +1,7 @@
-namespace RedOrderApi.DTOS;
+using System.Text.Json.Serialization;
 
+namespace RedOrderApi.DTOS;
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum OrderType
 {
     Standard = 1,

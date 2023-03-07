@@ -16,7 +16,8 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<OrderContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("OrderDb")));
 
-builder.Services.AddScoped<IOrderService, OrderService>();
+
+builder.Services.AddTransient<IOrderService, OrderService>();
 
 
 

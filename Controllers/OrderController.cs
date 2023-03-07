@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RedOrderApi.Data;
 using RedOrderApi.Services;
+using Order = RedOrderApi.DTOS.Order;
 
 namespace RedOrderApi.Controllers;
 
@@ -21,9 +22,10 @@ public class OrderController : ControllerBase
 
     [Route("createorder")]
     [HttpPost]
-    public ActionResult CreateOrder(int take = 10, int skip = 0)
-    {
-        return Ok(_orderContext.Orders.OrderBy(p => p.OrderId).Skip(skip).Take(take));
+    public async Task<ActionResult<Order>> CreateOrder(Order order)
+    { 
+        var results = _orderService.CreateOrder(order);
+        return Ok(results);
     }
     
     [Route("getorder")]
