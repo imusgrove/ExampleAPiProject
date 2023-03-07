@@ -24,40 +24,84 @@ public class OrderController : ControllerBase
     [Route("createorder")]
     [HttpPost]
     public async Task<ActionResult<Order>> CreateOrder(Order order)
-    { 
-        var results = _orderService.CreateOrder(order);
-        return Ok(results);
+    {
+        try
+        {
+            var results = _orderService.CreateOrder(order);
+            return Ok(results);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
     
     [Route("getorder")]
     [HttpGet]
     public async Task<ActionResult<Order>> GetOrder(int id)
     {
-        var results = _orderService.GetOrder(id);
-        return Ok(results);     
+        try
+        {
+            var results = _orderService.GetOrder(id);
+            return Ok(results); 
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+            
     }
     
     [Route("updateorder")]
     [HttpPut]
     public async Task<ActionResult<Order>> UpdateOrder(int id, Order order)
     {
-        var results = _orderService.UpdateOrder(id,order);
-        return Ok(results);    
+        try
+        {
+            var results = _orderService.UpdateOrder(id,order);
+            return Ok(results);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+           
     }
     
     [Route("searchbyordertype")]
     [HttpGet]
     public async Task<ActionResult<Order>> SearchByOrderType(DTOS.OrderType orderType)
     {
-        var results = _orderService.SearchByOrderType(orderType);
-        return Ok(results);     
+        try
+        {
+            var results = _orderService.SearchByOrderType(orderType);
+            return Ok(results); 
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+            
     }
     
     [Route("deleteorder")]
     [HttpDelete]
     public OkObjectResult DeleteOrder(int id)
     {
-        _orderService.DeleteOrder(id);
-        return Ok($"Record {id} deleted");
+        try
+        {
+            _orderService.DeleteOrder(id);
+            return Ok($"Record {id} deleted");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+      
     }
 }
