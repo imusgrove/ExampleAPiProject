@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using RedOrderApi.Data;
 using RedOrderApi.Services;
@@ -54,8 +55,9 @@ public class OrderController : ControllerBase
     
     [Route("deleteorder")]
     [HttpDelete]
-    public ActionResult DeleteOrder(int take = 10, int skip = 0)
+    public OkObjectResult DeleteOrder(int id)
     {
-        return Ok(_orderContext.Orders.OrderBy(p => p.OrderId).Skip(skip).Take(take));
+        _orderService.DeleteOrder(id);
+        return Ok($"Record {id} deleted");
     }
 }

@@ -19,7 +19,7 @@ public interface IOrderService
     
     Task<ActionResult<IEnumerable<Order>>> SearchByOrderType(OrderType orderType);
 
-    Task DeleteOrder(int id);
+    string DeleteOrder(int id);
 }
 
 public class OrderService : IOrderService
@@ -117,10 +117,12 @@ public class OrderService : IOrderService
         return orderList;      
     }
 
-    public async Task DeleteOrder(int id)
+     public string DeleteOrder(int id)
     {
-        var order = await _orderContext.Orders.FindAsync(id);
-        _orderContext.Orders.Remove(order);
-        await _orderContext.SaveChangesAsync();    
+        var order =  _orderContext.Orders?.FindAsync(id).Result;
+        _orderContext.Orders.Remove(order); 
+        _orderContext.SaveChangesAsync();
+
+        return $"Successfully deleted order number {id}";
     }
 }
