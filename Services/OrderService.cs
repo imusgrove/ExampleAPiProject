@@ -65,10 +65,25 @@ public class OrderService : IOrderService
 
     public async Task<Order> UpdateOrder(int id, Order order)
     {
-        var existingOrder = await _orderContext.Orders.FindAsync(id);
-        //existingOrder.OrderType = order.OrderType;
-        await _orderContext.SaveChangesAsync();
-        return new Order();
+        var existingOrder =  _orderContext.Orders?.FindAsync(id).Result;
+
+
+                existingOrder.OrderType = (DatabaseOrderType)order.OrderType;
+                existingOrder.CustomerName = order.CustomerName;
+                existingOrder.CreatedDate = order.CreatedDate;
+                existingOrder.CreatedByUsername = order.CreatedByUsername;
+           
+            _orderContext.Orders?.Update(existingOrder);
+            await _orderContext.SaveChangesAsync();
+            
+            var orderResponse = new Order()
+            {
+                OrderType = (OrderType)existingOrder?.OrderType,
+                CustomerName = existingOrder.CustomerName,
+                CreatedDate = existingOrder.CreatedDate,
+                CreatedByUsername = existingOrder.CreatedByUsername
+            };
+            return orderResponse;
     }
 
     public async Task<Order> SearchOrder(OrderType orderType)

@@ -37,9 +37,10 @@ public class OrderController : ControllerBase
     
     [Route("updateorder")]
     [HttpPut]
-    public ActionResult UpdateOrder(int take = 10, int skip = 0)
+    public async Task<ActionResult<Order>> UpdateOrder(int id, Order order)
     {
-        return Ok(_orderContext.Orders.OrderBy(p => p.OrderId).Skip(skip).Take(take));
+        var results = _orderService.UpdateOrder(id,order);
+        return Ok(results);    
     }
     
     [Route("searchbyordertype")]

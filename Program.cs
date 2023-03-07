@@ -49,8 +49,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI(c =>
     {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Order Api V1");
-        //c.RoutePrefix = string.Empty;
-    });;
+        c.RoutePrefix = "swagger";
+    });
+    app.UseRouting();
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapGet("/orders", async context =>
+        {
+        });
+
+    });
 }
 
 
