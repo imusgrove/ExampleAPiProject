@@ -68,61 +68,68 @@ public class OrderService : IOrderService
 
     public async Task<Order> UpdateOrder(int id, Order order)
     {
-        var existingOrder =  _orderContext.Orders?.FindAsync(id).Result;
+        var existingOrder = _orderContext.Orders?.FindAsync(id).Result;
 
+        if (existingOrder!=null)
+        {
+            existingOrder.OrderType = (DatabaseOrderType)order.OrderType;
+            existingOrder.CustomerName = order.CustomerName;
+            existingOrder.CreatedDate = order.CreatedDate;
+            existingOrder.CreatedByUsername = order.CreatedByUsername;
 
-                existingOrder.OrderType = (DatabaseOrderType)order.OrderType;
-                existingOrder.CustomerName = order.CustomerName;
-                existingOrder.CreatedDate = order.CreatedDate;
-                existingOrder.CreatedByUsername = order.CreatedByUsername;
-           
             _orderContext.Orders?.Update(existingOrder);
-            await _orderContext.SaveChangesAsync();
-            
-            var orderResponse = new Order()
-            {
-                OrderType = (OrderType)existingOrder?.OrderType,
-                CustomerName = existingOrder.CustomerName,
-                CreatedDate = existingOrder.CreatedDate,
-                CreatedByUsername = existingOrder.CreatedByUsername
-            };
-            return orderResponse;
+            await _orderContext.SaveChangesAsync(); 
+        }
+
+        var orderResponse = new Order()
+        {
+            OrderType = (OrderType)existingOrder?.OrderType,
+            CustomerName = existingOrder.CustomerName,
+            CreatedDate = existingOrder.CreatedDate,
+            CreatedByUsername = existingOrder.CreatedByUsername
+        };
+        return orderResponse;
     }
 
     public async Task<ActionResult<IEnumerable<Order>>> SearchByOrderType(OrderType orderType)
     {
         var orders =  _orderContext.Orders?.ToList();
-        
         var orderList = new List<Order>();
-        
-        foreach (var order in orders)
+
+        if (orders!=null)
         {
-            DatabaseOrderType type;
-
-            if (Enum.TryParse<DatabaseOrderType>(orderType.ToString(), out type))
+            foreach (var order in orders)
             {
-                if (order.OrderType == type)
-                {
-                    var mappedOrders = new Order
-                    {
-                        OrderType = (OrderType)order.OrderType,
-                        CustomerName = order.CustomerName,
-                        CreatedDate = order.CreatedDate,
-                        CreatedByUsername = order.CreatedByUsername
-                    };
-                    orderList.Add(mappedOrders);                }
-            }
-        }
+                DatabaseOrderType type;
 
-        return orderList;      
+                if (Enum.TryParse<DatabaseOrderType>(orderType.ToString(), out type))
+                {
+                    if (order.OrderType == type)
+                    {
+                        var mappedOrders = new Order
+                        {
+                            OrderType = (OrderType)order.OrderType,
+                            CustomerName = order.CustomerName,
+                            CreatedDate = order.CreatedDate,
+                            CreatedByUsername = order.CreatedByUsername
+                        };
+                        orderList.Add(mappedOrders);                
+                    }
+                }
+            }
+
+        }
+        return orderList;
     }
 
      public string DeleteOrder(int id)
     {
         var order =  _orderContext.Orders?.FindAsync(id).Result;
-        _orderContext.Orders.Remove(order); 
-        _orderContext.SaveChangesAsync();
-
+        if (order!=null)
+        {
+            _orderContext.Orders?.Remove(order); 
+            _orderContext.SaveChangesAsync();
+        }
         return $"Successfully deleted order number {id}";
     }
 }
