@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using RedOrderApi.Data;
 using RedOrderApi.Services;
+using Serilog;
 using Order = RedOrderApi.DTOS.Order;
 
 namespace RedOrderApi.Controllers;
@@ -11,13 +12,11 @@ namespace RedOrderApi.Controllers;
 [Route("[controller]")]
 public class OrderController : ControllerBase
 {
-    private readonly OrderContext _orderContext;
     private readonly IOrderService _orderService;
 
 
-    public OrderController (OrderContext orderContext, IOrderService orderService)
+    public OrderController (IOrderService orderService)
     {
-        _orderContext = orderContext;
         _orderService = orderService;
     }
 
@@ -28,11 +27,12 @@ public class OrderController : ControllerBase
         try
         {
             var results = _orderService.CreateOrder(order);
+            Log.Information("Order created.");
             return Ok(results);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Log.Error(e,"Error creating order.");
             throw;
         }
     }
@@ -44,11 +44,12 @@ public class OrderController : ControllerBase
         try
         {
             var results = _orderService.GetOrder(id);
+            Log.Information("Returning order ${id}.");
             return Ok(results); 
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Log.Error(e,"Error getting order.");
             throw;
         }
             
@@ -61,11 +62,12 @@ public class OrderController : ControllerBase
         try
         {
             var results = _orderService.UpdateOrder(id,order);
+            Log.Information("Updating order ${id}.");
             return Ok(results);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Log.Error(e,"Error updating order.");
             throw;
         }
            
@@ -78,11 +80,12 @@ public class OrderController : ControllerBase
         try
         {
             var results = _orderService.SearchByOrderType(orderType);
+            Log.Information("Searching for ordertype ${orderType}.");
             return Ok(results); 
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Log.Error(e, "Error searching database.");
             throw;
         }
             
@@ -95,11 +98,12 @@ public class OrderController : ControllerBase
         try
         {
             _orderService.DeleteOrder(id);
-            return Ok($"Record {id} deleted");
+            Log.Information("Deleting order ${id}.");
+            return Ok($"Record {id} deleted.");
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Log.Error(e,"Error deleting order.");
             throw;
         }
       
