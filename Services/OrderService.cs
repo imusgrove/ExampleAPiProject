@@ -13,7 +13,7 @@ public interface IOrderService
 {
     Task<ActionResult<Order>>  CreateOrder(Order order);
 
-    Task<Order> GetOrder(int id);
+     Task<ActionResult<Order>> GetOrder(int id);
     
     Task<Order> UpdateOrder(int id, Order order);
     
@@ -53,14 +53,17 @@ public class OrderService : IOrderService
         return orderResponse;
     }
 
-    public async Task<Order> GetOrder(int id)
+    public async Task<ActionResult<Order>> GetOrder(int id)
     {
-        var orders = _orderContext.Orders?.FindAsync(id);
-        var dto = new Order()
+        var orders =  _orderContext.Orders?.FindAsync(id).Result;
+        var orderResponse = new Order()
         {
-
+            OrderType = (OrderType)orders.OrderType,
+            CustomerName = orders.CustomerName,
+            CreatedDate = orders.CreatedDate,
+            CreatedByUsername = orders.CreatedByUsername
         };
-        return  dto;
+        return orderResponse;
     }
 
     public async Task<Order> UpdateOrder(int id, Order order)

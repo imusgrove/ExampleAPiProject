@@ -30,9 +30,10 @@ public class OrderController : ControllerBase
     
     [Route("getorder")]
     [HttpGet]
-    public ActionResult GetOrder(int take = 10, int skip = 0)
+    public async Task<ActionResult<Order>> GetOrder(int id)
     {
-        return Ok(_orderContext.Orders.OrderBy(p => p.OrderId).Skip(skip).Take(take));
+        var results = _orderService.GetOrder(id);
+        return Ok(results);     
     }
     
     [Route("updateorder")]
