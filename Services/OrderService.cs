@@ -13,11 +13,11 @@ public interface IOrderService
 {
     Task<ActionResult<Order>>  CreateOrder(Order order);
 
-     Task<ActionResult<Order>> GetOrder(int id);
+    Task<ActionResult<Order>> GetOrder(int id);
     
     Task<Order> UpdateOrder(int id, Order order);
     
-    Task <Order>SearchOrder(OrderType orderType);
+    Task<ActionResult<IEnumerable<Order>>> SearchByOrderType(OrderType orderType);
 
     Task DeleteOrder(int id);
 }
@@ -89,11 +89,32 @@ public class OrderService : IOrderService
             return orderResponse;
     }
 
-    public async Task<Order> SearchOrder(OrderType orderType)
+    public async Task<ActionResult<IEnumerable<Order>>> SearchByOrderType(OrderType orderType)
     {
-        _orderContext.Orders.FindAsync(orderType);
-         _orderContext.SaveChangesAsync();
-        return new Order();      
+        var orders =  _orderContext.Orders?.ToList();
+        
+        var orderList = new List<Order>();
+        
+        foreach (var order in orders)
+        {
+            DatabaseOrderType type;
+
+            if (Enum.TryParse<DatabaseOrderType>(orderType.ToString(), out type))
+            {
+                if (order.OrderType == type)
+                {
+                    var mappedOrders = new Order
+                    {
+                        OrderType = (OrderType)order.OrderType,
+                        CustomerName = order.CustomerName,
+                        CreatedDate = order.CreatedDate,
+                        CreatedByUsername = order.CreatedByUsername
+                    };
+                    orderList.Add(mappedOrders);                }
+            }
+        }
+
+        return orderList;      
     }
 
     public async Task DeleteOrder(int id)

@@ -46,9 +46,10 @@ public class OrderController : ControllerBase
     
     [Route("searchbyordertype")]
     [HttpGet]
-    public ActionResult GetOrdersByType(int take = 10, int skip = 0)
+    public async Task<ActionResult<Order>> SearchByOrderType(DTOS.OrderType orderType)
     {
-        return Ok(_orderContext.Orders.OrderBy(p => p.OrderId).Skip(skip).Take(take));
+        var results = _orderService.SearchByOrderType(orderType);
+        return Ok(results);     
     }
     
     [Route("deleteorder")]
